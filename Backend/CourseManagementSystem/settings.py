@@ -101,16 +101,30 @@ WSGI_APPLICATION = 'CourseManagementSystem.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.sqlite3',
+#     #     'NAME': BASE_DIR / 'db.sqlite3',
+#     # }
+#     "default": dj_database_url.config(
+#         conn_max_age=600,
+#         ssl_require=True
+#     )
+# }
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     "default": dj_database_url.config(
+        default=DATABASE_URL,
         conn_max_age=600,
-        ssl_require=True
     )
 }
+
+# This specific block helps with the SSL closure error on Render
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASES["default"]["OPTIONS"] = {
+        "sslmode": "require",
+    }
 
 
 # Password validation
