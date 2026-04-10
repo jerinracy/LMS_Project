@@ -32,6 +32,7 @@ SECRET_KEY = 'django-insecure-8$9znc=!2%)4p5m_q_8cb^xa#0gcj7oc(=nm$a%z$635e3o^8e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+
 def _get_env_list(name, default=''):
     value = os.getenv(name, default)
     return [item.strip() for item in value.split(',') if item.strip()]
