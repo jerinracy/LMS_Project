@@ -45,6 +45,11 @@ class CourseListCreateAPIView(generics.ListCreateAPIView):
             return
         serializer.save(instructor=self.request.user)
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({'request': self.request})
+        return context
+
 
 class CourseRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
@@ -82,6 +87,11 @@ class CourseRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
         if not is_admin and instance.instructor != self.request.user:
             raise PermissionDenied('You can only delete your own courses.')
         instance.delete()
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({'request': self.request})
+        return context
 
 
 class LessonListCreateAPIView(generics.ListCreateAPIView):
