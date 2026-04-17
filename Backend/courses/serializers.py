@@ -63,3 +63,10 @@ class CourseWriteSerializer(serializers.ModelSerializer):
         model = Course
         fields = ('id', 'title', 'description', 'thumbnail', 'instructor', 'created_at')
         read_only_fields = ('id', 'created_at')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get('request')
+        if request and instance.thumbnail:
+            data['thumbnail'] = request.build_absolute_uri(instance.thumbnail.url)
+        return data

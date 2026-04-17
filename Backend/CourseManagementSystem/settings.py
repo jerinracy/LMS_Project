@@ -199,3 +199,5 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = _get_env_list('CSRF_TRUSTED_ORIGINS')
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# So request.build_absolute_uri() uses the public host when behind a reverse proxy (e.g. Render).
+USE_X_FORWARDED_HOST = True
